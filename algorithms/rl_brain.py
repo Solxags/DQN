@@ -129,167 +129,167 @@ class DeepQNetwork:
         plt.show()
 
 
-def play_it():
-    env = gym.make('CartPole-v0')
-    env = env.unwrapped
-
-    print(env.action_space)
-    print(env.observation_space)
-    print(env.observation_space.high)
-    print(env.observation_space.low)
-
-    RL = DeepQNetwork(n_actions=env.action_space.n,
-                      n_features=env.observation_space.shape[0],
-                      learning_rate=0.01, e_greedy=0.9,
-                      replace_target_iter=100, memory_size=2000,
-                      e_greedy_increment=0.001, )
-
-    totel_steps = 0
-
-    for i_episode in range(10):
-        observation = env.reset()
-        ep_r = 0
-        while True:
-            env.render()
-            action = RL.choose_action(observation,train=True)
-            observation_, reward, done, info = env.step(action)
-
-            # the smaller theta and closer to center the better
-            x, x_dot, theta, theta_dot = observation_
-            r1 = (env.x_threshold - abs(x)) / env.x_threshold - 0.8
-            r2 = (env.theta_threshold_radians - abs(theta)) / env.theta_threshold_radians - 0.5
-            reward = r1 + r2
-
-            RL.store_transition(observation, action, reward, observation_)
-            ep_r += reward
-            if totel_steps > 1000:
-                RL.learn()
-
-            if done:
-                print('episode: ', i_episode, 'ep_r: ', round(ep_r, 2), ' epsilon: ', round(RL.epsilon, 2))
-                break
-            observation = observation_
-            totel_steps += 1
-
-    RL.plot_cost()
-    RL.save_model(model_path)
-    RL.load_model(model_path)
-    observation = env.reset()
-    while True:
-        env.render()
-        action = RL.choose_action(observation)
-        observation_, reward, done, info = env.step(action)
-
-        # the smaller theta and closer to center the better
-        x, x_dot, theta, theta_dot = observation_
-        r1 = (env.x_threshold - abs(x)) / env.x_threshold - 0.8
-        r2 = (env.theta_threshold_radians - abs(theta)) / env.theta_threshold_radians - 0.5
-        reward = r1 + r2
-
-        ep_r += reward
-        if done:
-            print('episode: ', i_episode, 'ep_r: ', round(ep_r, 2), ' epsilon: ', round(RL.epsilon, 2))
-            break
-        observation = observation_
-import gym
-
-
-def play_MountainCar():
-    env = gym.make('MountainCar-v0')
-    env = env.unwrapped
-
-    print(env.action_space)
-    print(env.observation_space)
-    print(env.observation_space.high)
-    print(env.observation_space.low)
-
-    RL = DeepQNetwork(n_actions=3, n_features=2, learning_rate=0.001, e_greedy=0.9,
-                      replace_target_iter=300, memory_size=3000,
-                      e_greedy_increment=0.0002, )
-
-    total_steps = 0
-    for i_episode in range(10):
-
-        observation = env.reset()
-        ep_r = 0
-        while True:
-            env.render()
-
-            action = RL.choose_action(observation)
-
-            observation_, reward, done, info = env.step(action)
-
-            position, velocity = observation_
-
-            # the higher the better
-            reward = abs(position - (-0.5))  # r in [0, 1]
-
-            RL.store_transition(observation, action, reward, observation_)
-
-            if total_steps > 1000:
-                RL.learn()
-
-            ep_r += reward
-            if done:
-                get = '| Get' if observation_[0] >= env.unwrapped.goal_position else '| ----'
-                print('Epi: ', i_episode,
-                      get,
-                      '| Ep_r: ', round(ep_r, 4),
-                      '| Epsilon: ', round(RL.epsilon, 2))
-                break
-
-            observation = observation_
-            total_steps += 1
-
-    RL.plot_cost()
-
-
-def play_single():
-    env = gym.make('Single_virtual-v0')
-    env = env.unwrapped
-
-    print(env.action_space)
-    print(env.observation_space)
-    print(env.observation_space.high)
-    print(env.observation_space.low)
-
-    RL = DeepQNetwork(n_actions=env.action_space.n,
-                      n_features=env.observation_space.shape[0],
-                      learning_rate=0.01, e_greedy=0.9,
-                      replace_target_iter=100, memory_size=2000,
-                      e_greedy_increment=0.001, )
-
-    totel_steps = 0
-
-    for i_episode in range(1000):
-        observation = env.reset()
-        ep_r = 0
-        while True:
-            # env.render()
-            action = RL.choose_action(observation)
-            observation_, reward, done, info = env.step(action)
-
-            # the smaller theta and closer to center the better
-            # x, x_dot, theta, theta_dot = observation_
-            # r1 = (env.x_threshold - abs(x)) / env.x_threshold - 0.8
-            # r2 = (env.theta_threshold_radians - abs(theta)) / env.theta_threshold_radians - 0.5
-            # reward = r1 + r2
-
-            RL.store_transition(observation, action, reward, observation_)
-            ep_r += reward
-            if totel_steps > 1000:
-                RL.learn()
-
-            if done:
-                print('episode: ', i_episode, 'ep_r: ', round(ep_r, 2), ' epsilon: ', round(RL.epsilon, 2))
-                break
-            observation = observation_
-            totel_steps += 1
-
-    RL.plot_cost()
-
-
-if __name__ == '__main__':
-    play_it()
-    # play_MountainCar()
-    # play_single()
+# def play_it():
+#     env = gym.make('CartPole-v0')
+#     env = env.unwrapped
+#
+#     print(env.action_space)
+#     print(env.observation_space)
+#     print(env.observation_space.high)
+#     print(env.observation_space.low)
+#
+#     RL = DeepQNetwork(n_actions=env.action_space.n,
+#                       n_features=env.observation_space.shape[0],
+#                       learning_rate=0.01, e_greedy=0.9,
+#                       replace_target_iter=100, memory_size=2000,
+#                       e_greedy_increment=0.001, )
+#
+#     totel_steps = 0
+#
+#     for i_episode in range(10):
+#         observation = env.reset()
+#         ep_r = 0
+#         while True:
+#             env.render()
+#             action = RL.choose_action(observation,train=True)
+#             observation_, reward, done, info = env.step(action)
+#
+#             # the smaller theta and closer to center the better
+#             x, x_dot, theta, theta_dot = observation_
+#             r1 = (env.x_threshold - abs(x)) / env.x_threshold - 0.8
+#             r2 = (env.theta_threshold_radians - abs(theta)) / env.theta_threshold_radians - 0.5
+#             reward = r1 + r2
+#
+#             RL.store_transition(observation, action, reward, observation_)
+#             ep_r += reward
+#             if totel_steps > 1000:
+#                 RL.learn()
+#
+#             if done:
+#                 print('episode: ', i_episode, 'ep_r: ', round(ep_r, 2), ' epsilon: ', round(RL.epsilon, 2))
+#                 break
+#             observation = observation_
+#             totel_steps += 1
+#
+#     RL.plot_cost()
+#     RL.save_model(model_path)
+#     RL.load_model(model_path)
+#     observation = env.reset()
+#     while True:
+#         env.render()
+#         action = RL.choose_action(observation)
+#         observation_, reward, done, info = env.step(action)
+#
+#         # the smaller theta and closer to center the better
+#         x, x_dot, theta, theta_dot = observation_
+#         r1 = (env.x_threshold - abs(x)) / env.x_threshold - 0.8
+#         r2 = (env.theta_threshold_radians - abs(theta)) / env.theta_threshold_radians - 0.5
+#         reward = r1 + r2
+#
+#         ep_r += reward
+#         if done:
+#             print('episode: ', i_episode, 'ep_r: ', round(ep_r, 2), ' epsilon: ', round(RL.epsilon, 2))
+#             break
+#         observation = observation_
+# import gym
+#
+#
+# def play_MountainCar():
+#     env = gym.make('MountainCar-v0')
+#     env = env.unwrapped
+#
+#     print(env.action_space)
+#     print(env.observation_space)
+#     print(env.observation_space.high)
+#     print(env.observation_space.low)
+#
+#     RL = DeepQNetwork(n_actions=3, n_features=2, learning_rate=0.001, e_greedy=0.9,
+#                       replace_target_iter=300, memory_size=3000,
+#                       e_greedy_increment=0.0002, )
+#
+#     total_steps = 0
+#     for i_episode in range(10):
+#
+#         observation = env.reset()
+#         ep_r = 0
+#         while True:
+#             env.render()
+#
+#             action = RL.choose_action(observation)
+#
+#             observation_, reward, done, info = env.step(action)
+#
+#             position, velocity = observation_
+#
+#             # the higher the better
+#             reward = abs(position - (-0.5))  # r in [0, 1]
+#
+#             RL.store_transition(observation, action, reward, observation_)
+#
+#             if total_steps > 1000:
+#                 RL.learn()
+#
+#             ep_r += reward
+#             if done:
+#                 get = '| Get' if observation_[0] >= env.unwrapped.goal_position else '| ----'
+#                 print('Epi: ', i_episode,
+#                       get,
+#                       '| Ep_r: ', round(ep_r, 4),
+#                       '| Epsilon: ', round(RL.epsilon, 2))
+#                 break
+#
+#             observation = observation_
+#             total_steps += 1
+#
+#     RL.plot_cost()
+#
+#
+# def play_single():
+#     env = gym.make('Single_virtual-v0')
+#     env = env.unwrapped
+#
+#     print(env.action_space)
+#     print(env.observation_space)
+#     print(env.observation_space.high)
+#     print(env.observation_space.low)
+#
+#     RL = DeepQNetwork(n_actions=env.action_space.n,
+#                       n_features=env.observation_space.shape[0],
+#                       learning_rate=0.01, e_greedy=0.9,
+#                       replace_target_iter=100, memory_size=2000,
+#                       e_greedy_increment=0.001, )
+#
+#     totel_steps = 0
+#
+#     for i_episode in range(1000):
+#         observation = env.reset()
+#         ep_r = 0
+#         while True:
+#             # env.render()
+#             action = RL.choose_action(observation)
+#             observation_, reward, done, info = env.step(action)
+#
+#             # the smaller theta and closer to center the better
+#             # x, x_dot, theta, theta_dot = observation_
+#             # r1 = (env.x_threshold - abs(x)) / env.x_threshold - 0.8
+#             # r2 = (env.theta_threshold_radians - abs(theta)) / env.theta_threshold_radians - 0.5
+#             # reward = r1 + r2
+#
+#             RL.store_transition(observation, action, reward, observation_)
+#             ep_r += reward
+#             if totel_steps > 1000:
+#                 RL.learn()
+#
+#             if done:
+#                 print('episode: ', i_episode, 'ep_r: ', round(ep_r, 2), ' epsilon: ', round(RL.epsilon, 2))
+#                 break
+#             observation = observation_
+#             totel_steps += 1
+#
+#     RL.plot_cost()
+#
+#
+# if __name__ == '__main__':
+#     play_it()
+#     # play_MountainCar()
+#     # play_single()
