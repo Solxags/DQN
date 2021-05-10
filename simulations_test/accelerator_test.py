@@ -1,5 +1,4 @@
 import csv
-import simpy
 
 gpu_config_path= '/home/ssego/DQN/simulations_test/processos_config/gpu.csv'
 gpu_power_consumption=24

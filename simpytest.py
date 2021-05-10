@@ -103,11 +103,15 @@
 # env.process(source(env, NEW_CUSTOMERS))
 # env.run()
 
-for i in range(5):
-  for j in range(5):
-    print(i, j)
-    if i == 3 and j == 3:
-      break
-  else:
-    continue
-  break
+# for i in range(5):
+#   for j in range(5):
+#     print(i, j)
+#     if i == 3 and j == 3:
+#       break
+#   else:
+#     continue
+#   break
+import numpy as np
+a=np.zeros([1,2],int)
+a[0,1]=1
+print(a)

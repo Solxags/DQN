@@ -5,27 +5,29 @@ import os
 task_path= '/home/ssego/DQN/simulations_test/tasks'
 
 class simulation(object):
-    def __init__(self,env,schduler):
-        self.env=env
-        self.broker=None
+    def __init__(self,schduler):
+        self.env=None
+        self.broker=broker(schduler)
         self.schduler=schduler
 
     def init_simulation(self):
-        self.broker=broker(self.env,self.schduler)
         Task_list=task_list_generator(task_path,self.env)
         self.broker.commit_task_list(Task_list)
         Machine_list=machine_list_generator(self.env)
         self.broker.register_machine_list(Machine_list)
 
     def run(self):
-        self.schduler.machine2task(self.broker)
         while True:
+            while self.broker.free_machine_list!=[]:
+                machine=self.broker.free_machine_list.pop()
+                self.schduler.machine2task(self.broker,machine)
             for task in self.broker.running_task_list:
                 if task.finished == True:
-                    print("Task Finished!")
+                    self.broker.total_finish_time+=self.env.now
+                    print("Task "+str(task.id)+" Finished on "+str(self.env.now))
                     task.task_start_flag == False
                     task.task_finish_flag == True
-                    self.broker.running_task_list.remove(task)
+                    self.broker.remove_finished_task(task)
                 else:
                     if task.is_waiting==True:
                         for machine in task.machine_list:
@@ -33,6 +35,7 @@ class simulation(object):
                                 if accelerator.running_task_instance==None:
                                     self.schduler.accelerator2task_instance(task)
             if self.broker.finished==True:
+                print(self.broker.total_finish_time/2)
                 break
             yield self.env.timeout(1)
 

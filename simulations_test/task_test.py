@@ -50,7 +50,6 @@ class task(object):
             return False
         if len(self.running_task_instance_list) != 0:
             return False
-        self.task_finish.succeed()
         return True
 
     @property
