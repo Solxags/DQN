@@ -3,7 +3,7 @@ from simulation_test import simulation
 from schduler_test import schduler
 from simulations_test.algorithms.first_fit import algorithm
 from simulations_test.policy.Policy_gradient import policy
-# from policy.fair import policy
+# from policy.all_to_one import policy
 import matplotlib.pyplot as plt
 
 # env = simpy.Environment()

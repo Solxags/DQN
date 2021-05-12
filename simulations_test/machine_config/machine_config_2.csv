@@ -1,0 +1,6 @@
+id,accelerator
+0,MLU
+1,GPU
+2,CPU
+3,FPGA
+

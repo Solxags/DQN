@@ -1,0 +1,5 @@
+task,data_set,execute_time
+inception_v1,10000,224
+resnet50,10000,543
+vgg16,10000,1367
+vgg19,10000,1502
