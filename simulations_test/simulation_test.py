@@ -5,9 +5,9 @@ import os
 task_path= '/home/ssego/DQN/simulations_test/tasks'
 
 class simulation(object):
-    def __init__(self,schduler):
-        self.env=None
-        self.broker=broker(schduler)
+    def __init__(self,env,schduler):
+        self.env=env
+        self.broker=broker(env,schduler)
         self.schduler=schduler
 
     def init_simulation(self):
@@ -35,7 +35,7 @@ class simulation(object):
                                 if accelerator.running_task_instance==None:
                                     self.schduler.accelerator2task_instance(task)
             if self.broker.finished==True:
-                print(self.broker.total_finish_time/2)
+                print(self.broker.total_finish_time/8)
                 break
             yield self.env.timeout(1)
 

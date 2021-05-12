@@ -55,7 +55,7 @@ class PolicyGradient:
         # fc1
         layer = tf.layers.dense(
             inputs=self.tf_obs,
-            units=10,
+            units=20,
             activation=tf.nn.tanh,  # tanh activation
             kernel_initializer=tf.random_normal_initializer(mean=0, stddev=0.3),
             bias_initializer=tf.constant_initializer(0.1),

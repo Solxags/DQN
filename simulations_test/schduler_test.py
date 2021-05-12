@@ -10,11 +10,12 @@ class schduler(object):
         self.policy.run(broker,machine)
 
     def accelerator2task_instance(self,task):
-        randy_task_instance_list=task.waiting_task_instance_list
-        randy_accelerator_list=[]
-        for machine in task.machine_list:
-            randy_accelerator_list+=machine.accelerator_list
-        randy_task_instance,randy_accelerator=self.algorithm.run(randy_task_instance_list,randy_accelerator_list)
-        task.waiting_task_instance_list.remove(randy_task_instance)
-        task.running_task_instance_list.append(randy_task_instance)
-        randy_accelerator.run_task_instance(randy_task_instance)
+        if task.is_waiting==True:
+            randy_task_instance_list=task.waiting_task_instance_list
+            randy_accelerator_list=[]
+            for machine in task.machine_list:
+                randy_accelerator_list+=machine.accelerator_list
+            randy_task_instance,randy_accelerator=self.algorithm.run(randy_task_instance_list,randy_accelerator_list)
+            task.waiting_task_instance_list.remove(randy_task_instance)
+            task.running_task_instance_list.append(randy_task_instance)
+            randy_accelerator.run_task_instance(randy_task_instance)

@@ -1,15 +1,12 @@
 import numpy as np
-import simpy
-
-
 class broker(object):
-    def __init__(self,schduler):
+    def __init__(self,env,schduler):
         self.task_list=[]
         self.machine_list=[]
         self.running_task_list=[]
         self.waiting_task_list=None
         self.free_machine_list=None
-        self.env=None
+        self.env=env
         self.scheduler=schduler
         self.total_finish_time=0
 
@@ -24,9 +21,9 @@ class broker(object):
         self.free_machine_list=machine_list
 
     def remove_finished_task(self,task):
-        self.running_task_list.remove(task)
         for machine in task.machine_list:
             self.free_machine_list.append(machine)
+        self.running_task_list.remove(task)
 
     @property
     def finished(self):
@@ -48,7 +45,6 @@ class broker(object):
         return machine_task_graph
 
     def reset(self):
-        self.env=simpy.Environment
         self.waiting_task_list = []
         self.free_machine_list = []
         for task in self.task_list:

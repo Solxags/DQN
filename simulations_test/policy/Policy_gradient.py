@@ -26,6 +26,7 @@ class policy(object):
         task=broker.search_task_id(action)
         if task!=None:
             self.env.step(task,machine)
-            self.RL.store_transition(observation, action, -1)
+            self.RL.store_transition(observation, action, -100)
         else:
+            broker.free_machine_list.append(machine)
             self.RL.store_transition(observation, action, -999)

@@ -91,7 +91,7 @@ class accelerator(object):
         self.running_task_instance.finished = True
         self.running_task_instance.finished_timestamp = self.env.now
         self.power_consumption_total+=self.caculate_power_compution(runtime)
-        print(self.state, self.env.now)
+        # print(self.state, self.env.now)
         self.running_task_instance=None
         self.free.succeed()
         self.free = self.env.event()
