@@ -2,7 +2,6 @@ from  broker_test import broker
 from task_test import task_list_generator
 from machine_test import machine_list_generator
 import os
-task_path= '/home/ssego/DQN/simulations_test/tasks'
 
 class simulation(object):
     def __init__(self,env,schduler):
@@ -10,7 +9,7 @@ class simulation(object):
         self.broker=broker(env,schduler)
         self.schduler=schduler
 
-    def init_simulation(self):
+    def init_simulation(self,task_path):
         Task_list=task_list_generator(task_path,self.env)
         self.broker.commit_task_list(Task_list)
         Machine_list=machine_list_generator(self.env)

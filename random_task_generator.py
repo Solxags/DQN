@@ -1,10 +1,10 @@
 import random
 import csv
-random.seed(38)
+random.seed(8)
 
 headers = ['id','submit_time','task_type']
 
-f=open('simulations_test/tasks/task8.csv', 'w')
+f=open('simulations_test/tasks_test/task8', 'w')
 f_csv = csv.writer(f)
 f_csv.writerow(headers)
 b=0

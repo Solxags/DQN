@@ -39,9 +39,5 @@ class machine(object):
         return accelerator_list
 
     def run_task(self,task):
-        self.free=self.env.event()
-        self.running_task=task
+        yield self.env.timeout(5000)
         task.machine_list.append(self)
-        yield task.finish
-        self.running_task=None
-        self.free.succeed()

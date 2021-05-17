@@ -24,8 +24,8 @@ class PolicyGradient:
             self,
             n_actions,
             n_features,
-            learning_rate=0.01,
-            reward_decay=0.95,
+            learning_rate=0.02,
+            reward_decay=0.995,
             output_graph=False,
     ):
         self.n_actions = n_actions
